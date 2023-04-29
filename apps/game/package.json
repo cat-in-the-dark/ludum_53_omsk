@@ -1,0 +1,36 @@
+{
+  "name": "game",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "start": "vite preview",
+    "lint": "eslint \"src/**/*.ts\"",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  },
+  "dependencies": {
+    "cat-lib": "workspace:*",
+    "cat-lib-web": "workspace:*",
+    "@pixi/display": "^7.2.4",
+    "@pixi/app": "^7.2.4",
+    "@pixi/sprite": "^7.2.4",
+    "@pixi/graphics": "^7.2.4",
+    "@pixi/sprite-animated": "^7.2.4",
+    "@pixi/assets": "^7.2.4",
+    "@pixi/core": "^7.2.4",
+    "@pixi/events": "^7.2.4",
+    "@pixi/sound": "^5.1.1",
+    "@pixi/text": "^7.2.4"
+  },
+  "devDependencies": {
+    "tsconfig": "workspace:*",
+    "eslint-config-custom": "workspace:*",
+    "eslint": "^8.38.0",
+    "@types/node": "^18.15.11",
+    "typescript": "^5.0.4",
+    "vite": "^4.2.1",
+    "@babel/core": "^7.21.4"
+  }
+}
