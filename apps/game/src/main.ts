@@ -5,12 +5,13 @@ import { sceneManager } from "cat-lib";
 import { GameScene } from "./scenes/game";
 import { TitleScene } from "./scenes/title";
 import { inputs } from "cat-lib-web";
+import { loadAssets } from "./assets";
 
 async function main() {
   const app = new Application<HTMLCanvasElement>({
     background: "#000000",
-    width: 1161,
-    height: 652,
+    width: 960,
+    height: 600,
     antialias: true,
   });
   BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST; // pixel perfect
@@ -18,7 +19,7 @@ async function main() {
 
   inputs.connect();
 
-  // await loadAssets();
+  await loadAssets();
 
   const container = new Container();
   container.x = 0;
