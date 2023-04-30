@@ -1,5 +1,5 @@
 import { Container } from "@pixi/display";
-import { Cooldown, Vec2 } from "cat-lib";
+import { Cooldown, Rect, Vec2, randomBetween } from "cat-lib";
 import { Graphics } from "@pixi/graphics";
 import { triangle } from "../shapes/triangle";
 import { inputs } from "cat-lib-web";
@@ -15,9 +15,15 @@ export class Player implements IEntity {
   private speed = BALANCE.playerSpeed;
   private bulletDamage = 1;
 
+  private deleted = false;
+
+  private hp = BALANCE.playerHP;
+
+  extraBullets = 0;
+
   private simpleBulletSpeed = BALANCE.bulletSpeed;
 
-  private cooldowns = {
+  cooldowns = {
     simpleBullet: new Cooldown(0.5),
   };
 
@@ -31,9 +37,18 @@ export class Player implements IEntity {
     this.container.addChild(this.graphics);
   }
 
+  getDmg(dmg: number) {
+    console.log("AAAAAA");
+    this.hp -= dmg;
+  }
+
   update(dt: number): void {
     this.move(dt);
     this.attack(dt);
+
+    if (this.hp <= 0) {
+      this.deleted = true;
+    }
   }
 
   private attack(dt: number) {
@@ -48,6 +63,18 @@ export class Player implements IEntity {
           this.container
         )
       );
+
+      for (let i = 0; i < this.extraBullets; i++) {
+        const bullet = new Bullet(
+          this.x,
+          this.y,
+          this.simpleBulletSpeed,
+          new Vec2(randomBetween(-0.5, 0.5), -1),
+          this.bulletDamage,
+          this.container
+        );
+        IOC.entities.bullets.push(bullet);
+      }
     }
 
     Object.values(this.cooldowns).forEach((v) => v.update(dt));
@@ -104,6 +131,20 @@ export class Player implements IEntity {
   }
 
   public get isDeleted() {
-    return false;
+    return this.deleted;
+  }
+
+  get body() {
+    return new Rect(this.x, this.y, this.width, this.height);
+  }
+
+  get p1() {
+    return new Vec2(this.x, this.y);
+  }
+  get p2() {
+    return new Vec2(this.x - this.width / 2, this.y + this.height);
+  }
+  get p3() {
+    return new Vec2(this.x + this.width / 2, this.y + this.height);
   }
 }

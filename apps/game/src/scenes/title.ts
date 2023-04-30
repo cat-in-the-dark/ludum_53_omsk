@@ -1,14 +1,18 @@
 import { Assets } from "@pixi/assets";
 import { Container } from "@pixi/display";
 import { Sprite } from "@pixi/sprite";
-import { IScene, sceneManager } from "cat-lib";
+import { IScene, Timer, sceneManager } from "cat-lib";
+import { inputs } from "cat-lib-web";
 
 export class TitleScene implements IScene {
   private ready = false;
 
+  private cd = new Timer(0.2);
+
   constructor(public container: Container) {}
 
   activate(): void {
+    this.cd.reset();
     Assets.load("logo").then((tex) => {
       const logo = Sprite.from(tex);
       logo.x = 0;
@@ -23,10 +27,12 @@ export class TitleScene implements IScene {
   exit(): void {
     this.container.removeChildren();
   }
-  update(_dt: number): void {
-    // nothing to do
+  update(dt: number): void {
     if (this.ready) {
-      sceneManager.set("game");
+      this.cd.update(dt);
+      if (this.cd.isPassed && inputs.isPressed("Space")) {
+        sceneManager.set("game");
+      }
     }
   }
 }

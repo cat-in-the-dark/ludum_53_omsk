@@ -8,9 +8,18 @@ export const UI = {
 };
 
 export const BALANCE = {
-  playerSpeed: 200,
+  powerups: {
+    spawnX: () => randomBetween(32, UI.screen.width - 32),
+    spawnY: () => randomBetween(-64, -48),
+    speed: 200,
+    cooldown: 4,
+    atkSpeed: 0.1,
+  },
+  playerHP: 2,
+  playerSpeed: 300,
   bulletSpeed: 600,
   enemySpawnCooldown: 2,
+  enemyDamage: 0.5,
   bossEnemySpeed: () => randomBetween(10, 100),
   enemySpeed: () => randomBetween(50, 200),
   minEnemySize: 24,

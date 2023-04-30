@@ -7,6 +7,7 @@ import { TitleScene } from "./scenes/title";
 import { inputs } from "cat-lib-web";
 import { loadAssets } from "./assets";
 import { UI } from "./consts";
+import { GameOverScene } from "./scenes/gameover";
 
 async function main() {
   const app = new Application<HTMLCanvasElement>({
@@ -31,6 +32,7 @@ async function main() {
   // supposing TitleScreen loads all the assets
   // so next screens can use Assets.get without awaits
   sceneManager.put("game", new GameScene(container));
+  sceneManager.put("gameOver", new GameOverScene(container));
 
   sceneManager.set("title");
 

@@ -1,19 +1,25 @@
-import { Circle, Vec2 } from "cat-lib";
+import { Circle, Cooldown, Vec2 } from "cat-lib";
 import { IEntity } from "./entity";
 import { Graphics } from "@pixi/graphics";
 import { Container } from "@pixi/display";
-import { UI } from "../consts";
+import { BALANCE, UI } from "../consts";
 import type { Bullet } from "./bullet";
 import { enemySize } from "../state";
+import { Player } from "./player";
 
 export class Enemy implements IEntity {
   private deleted = false;
   private graphics: Graphics;
 
+  public playerCollisions: Player[] = [];
   public collisions: Bullet[] = [];
   private hp: number;
 
+  private dmg = BALANCE.enemyDamage;
+
   private mustRedraw = true;
+
+  private dmgCooldown = new Cooldown(0.05);
 
   constructor(
     x: number,
@@ -43,6 +49,7 @@ export class Enemy implements IEntity {
 
   update(dt: number): void {
     this.draw();
+    this.dmgCooldown.update(dt);
 
     const dir = this.dir.normalized;
     this.x += this.speed * dir.x * dt;
@@ -57,11 +64,18 @@ export class Enemy implements IEntity {
       this.mustRedraw = true;
     });
 
+    if (this.dmgCooldown.invoke()) {
+      this.playerCollisions.forEach((p) => {
+        p.getDmg(this.dmg);
+      });
+    }
+
     if (this.hp <= 0) {
       this.remove();
     }
 
     this.collisions = [];
+    this.playerCollisions = [];
   }
 
   remove() {
