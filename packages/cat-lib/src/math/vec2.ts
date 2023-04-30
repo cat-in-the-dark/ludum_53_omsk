@@ -40,6 +40,13 @@ export class Vec2 {
     const len = this.magnitude;
     return new Vec2(this.x / len, this.y / len);
   }
+  normalize(): void {
+    const len = this.magnitude;
+    if (len >= 0.001) {
+      this.x /= len;
+      this.y /= len;
+    }
+  }
 }
 
 export function lerpVec2(begin: Vec2, end: Vec2, t: number) {

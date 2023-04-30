@@ -1,3 +1,4 @@
+import { Circle } from "./circle";
 import type { Rect } from "./rect";
 import type { Vec2 } from "./vec2";
 
@@ -5,6 +6,10 @@ export function rectIsIntersect(a: Rect, b: Rect) {
   return (
     a.minX <= b.maxX && a.maxX >= b.minX && a.minY <= b.maxY && a.maxY >= b.minY
   );
+}
+
+export function circleContainsPoint(point: Vec2, cirlce: Circle) {
+  return cirlce.center.minus(point).sqrMagnitude <= Math.pow(cirlce.r, 2);
 }
 
 export function rectContainsPoint(point: Vec2, box: Rect) {

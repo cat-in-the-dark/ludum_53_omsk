@@ -6,12 +6,13 @@ import { GameScene } from "./scenes/game";
 import { TitleScene } from "./scenes/title";
 import { inputs } from "cat-lib-web";
 import { loadAssets } from "./assets";
+import { UI } from "./consts";
 
 async function main() {
   const app = new Application<HTMLCanvasElement>({
     background: "#000000",
-    width: 960,
-    height: 600,
+    width: UI.screen.width,
+    height: UI.screen.height,
     antialias: true,
   });
   BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST; // pixel perfect
